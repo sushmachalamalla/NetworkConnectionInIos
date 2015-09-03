@@ -17,24 +17,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+   // NSURL *url=[NSURL URLWithString:@"http://mobileappinnovator.com/wp-content/plugins/mobileblog/website_feed.php"];
     
-    NSURL *url=[NSURL URLWithString:@"http://mobileappinnovator.com/wp-content/plugins/mobileblog/website_feed.php"];
+    NSString *url = @"http://mobileappinnovator.com/wp-content/plugins/mobileblog/website_feed.php";
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSURLResponse *response;
-    NSError *error;
+    NSDictionary *recievedData;
+    recievedData = [self getJSONfromURL:url];
     
-    NSData *data =   [NSURLConnection sendSynchronousRequest:request
-                                                          returningResponse:&response
-                                                                      error:&error];
-    NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments
-                                                                  error:nil];
-    NSLog(@"%@",responseData);
+    NSLog(@"%@",recievedData);
     
 }
 
 
-
+-(NSDictionary *)getJSONfromURL:(NSString *)urlString
+{
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSURLResponse *response;
+    NSError *error;
+    
+    NSData *data =   [NSURLConnection sendSynchronousRequest:request
+                                           returningResponse:&response
+                                                       error:&error];
+    NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments
+                                                                   error:nil];
+    return responseData;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
